@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
-import ServiceSummary from "./sections/ServiceSummary";
-import Services from "./sections/Services";
+
+
+// import ServiceSummary from "./sections/ServiceSummary";
+// import service from "./sections/achievements";
 import ReactLenis from "lenis/react";
 import About from "./sections/About";
 import Works from "./sections/Works";
-import ContactSummary from "./sections/ContactSummary";
+// import ContactSummary from "./sections/ContactSummary";
 import Contact from "./sections/Contact";
 import { useProgress } from "@react-three/drei";
+import Achievements from "./sections/achievements";
 
 const App = () => {
   const { progress } = useProgress();
@@ -42,12 +45,14 @@ const App = () => {
       >
         <Navbar />
         <Hero />
-        <ServiceSummary />
-        <Services />
         <About />
+        {/* <PhysicsFooter /> */}
         <Works />
-        <ContactSummary />
+        <Achievements/>
         <Contact />
+        {/* <ServiceSummary /> */} 
+        {/* <ContactSummary /> */}
+        
       </div>
     </ReactLenis>
   );

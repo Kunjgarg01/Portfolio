@@ -10,6 +10,8 @@ const Works = () => {
   const previewRef = useRef(null);
 
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
   const text = `Featured projects that have been meticulously
     crafted with passion to drive
     results and impact.`;
@@ -99,6 +101,10 @@ const Works = () => {
     moveY.current(mouse.current.y);
   };
 
+  const handleExpand = (index) => {
+    setExpandedIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
     <section id="work" className="flex flex-col min-h-screen">
       <AnimatedHeaderSection
@@ -117,8 +123,10 @@ const Works = () => {
             key={project.id}
             id="project"
             className="relative flex flex-col gap-1 py-5 cursor-pointer group md:gap-0"
+            tabIndex={0}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={() => handleMouseLeave(index)}
+            onClick={() => handleExpand(index)}
           >
             {/* overlay */}
             <div
@@ -130,24 +138,53 @@ const Works = () => {
 
             {/* title */}
             <div className="flex justify-between px-10 text-black transition-all duration-500 md:group-hover:px-12 md:group-hover:text-white">
-              <h2 className="lg:text-[32px] text-[26px] leading-none">
+              <h2 className="lg:text-5xl text-4xl font-light leading-tight">
                 {project.name}
               </h2>
-              <Icon icon="lucide:arrow-up-right" className="md:size-6 size-5" />
+              <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={e => e.stopPropagation()} // Prevents triggering expand/collapse
+                  aria-label={`Open live demo for ${project.name}`}
+                >
+                <Icon icon="lucide:arrow-up-right" className="md:size-10 size-8 cursor-pointer" />
+                <span className="block mt-1 text-xs md:text-sm uppercase tracking-widest font-semi-bold">
+                    Live
+                </span>
+              </a>
+
             </div>
+
             {/* divider */}
             <div className="w-full h-0.5 bg-black/80" />
-            {/* framework */}
-            <div className="flex px-10 text-xs leading-loose uppercase transtion-all duration-500 md:text-sm gap-x-5 md:group-hover:px-12">
+
+            {/* framework (tech stack) */}
+            <div className="flex px-10 text-lg leading-loose uppercase transtion-all duration-500 md:text-xl gap-x-6 md:group-hover:px-12">
               {project.frameworks.map((framework) => (
                 <p
                   key={framework.id}
-                  className="text-black transition-colors duration-500 md:group-hover:text-white"
+                  className="text-black transition-colors duration-500 md:group-hover:text-white font-light"
                 >
                   {framework.name}
                 </p>
               ))}
             </div>
+
+            {/* Expandable description */}
+            <div
+              className={`overflow-hidden transition-all duration-500 ${
+                expandedIndex === index
+                  ? "max-h-60 opacity-100 py-2"
+                  : "max-h-0 opacity-0 py-0"
+              }`}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              <p className="px-10 text-2xl text-black/80 md:group-hover:text-white font-light">
+                {project.description}
+              </p>
+            </div>
+
             {/* mobile preview image */}
             <div className="relative flex items-center justify-center px-10 md:hidden h-[400px]">
               <img
@@ -163,7 +200,7 @@ const Works = () => {
             </div>
           </div>
         ))}
-        {/* desktop Flaoting preview image */}
+        {/* desktop Floating preview image */}
         <div
           ref={previewRef}
           className="fixed -top-2/6 left-0 z-50 overflow-hidden border-8 border-black pointer-events-none w-[960px] md:block hidden opacity-0"

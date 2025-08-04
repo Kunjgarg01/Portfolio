@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import AnimatedHeaderSection from "../components/AnimatedHeaderSection";
-import { AnimatedTextLines } from "../components/AnimatedTextLines";
+import PhysicsFooter from './PhysicsFooter';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -8,13 +8,8 @@ const About = () => {
   const text = `Passionate about clean architecture
     I build scalable, high-performance solutions
     from prototype to production`;
-  const aboutText = `Obsessed with building fast, intuitive apps—from pixel-perfect React UIs to bulletproof serverless backends. Every line of code is a promise: quality that users feel.
-  When I’m not shipping:
-⚡️ Open-sourcing my latest experiment (or hacking on yours)
-🎥 Teaching devs on Twitch/YouTube—because rising tides lift all ships
-🧗 Rock climbing (problem-solving with real stakes)
-🎸 Strumming chords while CI pipelines pass (multitasking at its finest)`;
   const imgRef = useRef(null);
+
   useGSAP(() => {
     gsap.to("#about", {
       scale: 0.95,
@@ -38,6 +33,7 @@ const About = () => {
       scrollTrigger: { trigger: imgRef.current },
     });
   });
+
   return (
     <section id="about" className="min-h-screen bg-black rounded-b-4xl">
       <AnimatedHeaderSection
@@ -47,15 +43,28 @@ const About = () => {
         textColor={"text-white"}
         withScrollTrigger={true}
       />
-      <div className="flex flex-col items-center justify-between gap-16 px-10 pb-16 text-xl font-light tracking-wide lg:flex-row md:text-2xl lg:text-3xl text-white/60">
-        <img
-          ref={imgRef}
-          src="images/man.jpg"
-          alt="man"
-          className="w-md rounded-3xl"
-        />
-        <AnimatedTextLines text={aboutText} className={"w-full"} />
+      <div className="flex flex-col gap-6 pt-6 px-10 pb-16 text-xl font-light tracking-wide text-white/60">
+        {/* Left section, with Tech Stack heading in the right corner */}
+        <div className="w-[100%] flex justify-between items-end">
+          <div>
+            <h2 className="mb-4 text-4xl font-bold text-white">
+              Hi, I'm Kunj Garg
+            </h2>
+            <p className="text-2xl">
+              Passionate front-end developer with a strong eye for design and detail.<br />
+              I specialize in building responsive, user-friendly web interfaces using modern technologies like HTML, CSS, JavaScript, and React.<br />
+              I turn ideas into seamless digital experiences that are both scalable and performance-driven.
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-end pr-5">
+  <h2 className="text-5xl font-bold text-white whitespace-nowrap">
+    Tech Stack
+  </h2>
+</div>
+
       </div>
+      <PhysicsFooter />
     </section>
   );
 };
